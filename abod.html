@@ -1,0 +1,751 @@
+
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>كتاب التعريفات</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --dark: #0d0b08;
+    --dark2: #1a1610;
+    --dark3: #252018;
+    --cream: #f5ead8;
+    --cream2: #ede0c4;
+    --text: #2a2218;
+    --border: #c9a84c44;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: var(--dark);
+    color: var(--cream);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ===== PAGES ===== */
+  .page { display: none; min-height: 100vh; }
+  .page.active { display: block; animation: fadeIn 0.6s ease; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== HOME PAGE ===== */
+  #home {
+    background: var(--dark);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #home::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, #c9a84c18 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .home-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .site-title {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .site-title .ornament {
+    color: var(--gold);
+    font-size: 28px;
+    letter-spacing: 8px;
+    opacity: 0.6;
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .site-title h1 {
+    font-family: 'Amiri', serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    color: var(--cream);
+    line-height: 1.2;
+    text-shadow: 0 0 60px #c9a84c44;
+  }
+
+  .site-title p {
+    margin-top: 16px;
+    color: var(--gold-light);
+    font-weight: 300;
+    font-size: 1.1rem;
+    opacity: 0.8;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 48px 0;
+    opacity: 0.4;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to left, transparent, var(--gold));
+  }
+  .divider::after { background: linear-gradient(to right, transparent, var(--gold)); }
+  .divider span { color: var(--gold); font-size: 20px; }
+
+  /* Cards Grid */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+  }
+
+  .def-card {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px 24px;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .def-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+  }
+
+  .def-card:hover::before { transform: scaleX(1); }
+
+  .def-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    border-color: var(--gold);
+    box-shadow: 0 20px 60px #c9a84c22, 0 0 0 1px #c9a84c33;
+    background: var(--dark3);
+  }
+
+  .def-card .card-icon {
+    font-size: 36px;
+    margin-bottom: 16px;
+    display: block;
+    filter: drop-shadow(0 0 10px #c9a84c66);
+  }
+
+  .def-card .card-title {
+    font-family: 'Amiri', serif;
+    font-size: 1.5rem;
+    color: var(--gold-light);
+    margin-bottom: 8px;
+  }
+
+  .def-card .card-subtitle {
+    font-size: 0.85rem;
+    color: var(--cream);
+    opacity: 0.4;
+    font-weight: 300;
+  }
+
+  /* Add button */
+  .add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 40px auto 0;
+    background: transparent;
+    border: 1px dashed var(--gold);
+    color: var(--gold);
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem;
+    padding: 14px 36px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    opacity: 0.6;
+  }
+  .add-btn:hover { opacity: 1; background: #c9a84c11; transform: scale(1.03); }
+
+  /* ===== DETAIL PAGE ===== */
+  #detail {
+    background: var(--dark);
+    min-height: 100vh;
+  }
+
+  .detail-header {
+    background: var(--dark2);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+  }
+
+  .back-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--gold);
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.9rem;
+    padding: 8px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .back-btn:hover { background: var(--gold); color: var(--dark); }
+
+  .detail-title {
+    font-family: 'Amiri', serif;
+    font-size: 1.8rem;
+    color: var(--gold-light);
+  }
+
+  .detail-body {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 48px 24px;
+  }
+
+  /* Image Upload */
+  .image-section {
+    margin-bottom: 36px;
+  }
+
+  .image-upload-area {
+    border: 2px dashed var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    background: var(--dark2);
+  }
+
+  .image-upload-area:hover { border-color: var(--gold); background: var(--dark3); }
+
+  .image-upload-area img.preview {
+    max-width: 100%;
+    max-height: 400px;
+    border-radius: 12px;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .image-upload-area .upload-placeholder {
+    color: var(--gold);
+    opacity: 0.5;
+  }
+  .image-upload-area .upload-placeholder .icon { font-size: 40px; margin-bottom: 12px; display: block; }
+  .image-upload-area .upload-placeholder p { font-size: 0.9rem; }
+
+  .image-upload-area input[type=file] {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+  }
+
+  /* Description box */
+  .desc-section h2 {
+    font-family: 'Amiri', serif;
+    font-size: 1.6rem;
+    color: var(--gold-light);
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .desc-text {
+    line-height: 2;
+    font-size: 1.05rem;
+    color: var(--cream2);
+    white-space: pre-wrap;
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    min-height: 120px;
+    outline: none;
+    font-family: 'Cairo', sans-serif;
+    width: 100%;
+    resize: vertical;
+    transition: border-color 0.3s;
+  }
+  .desc-text:focus { border-color: var(--gold); }
+
+  .edit-hint {
+    margin-top: 10px;
+    font-size: 0.78rem;
+    color: var(--gold);
+    opacity: 0.5;
+    text-align: left;
+  }
+
+  /* ===== ADD MODAL ===== */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #00000099;
+    backdrop-filter: blur(6px);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal-overlay.open { display: flex; animation: fadeIn 0.3s ease; }
+
+  .modal {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 40px;
+    width: 100%;
+    max-width: 480px;
+  }
+
+  .modal h3 {
+    font-family: 'Amiri', serif;
+    font-size: 1.8rem;
+    color: var(--gold-light);
+    margin-bottom: 28px;
+    text-align: center;
+  }
+
+  .form-group { margin-bottom: 20px; }
+  .form-group label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--gold);
+    margin-bottom: 8px;
+    opacity: 0.8;
+  }
+
+  .form-group input, .form-group select {
+    width: 100%;
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    color: var(--cream);
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  .form-group input:focus { border-color: var(--gold); }
+
+  .modal-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .icon-btn {
+    width: 42px; height: 42px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--dark3);
+    font-size: 20px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .icon-btn:hover, .icon-btn.selected { border-color: var(--gold); background: #c9a84c22; }
+
+  .modal-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .btn-confirm {
+    flex: 1;
+    background: var(--gold);
+    color: var(--dark);
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .btn-confirm:hover { background: var(--gold-light); transform: scale(1.02); }
+
+  .btn-cancel {
+    flex: 1;
+    background: transparent;
+    color: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    opacity: 0.6;
+  }
+  .btn-cancel:hover { opacity: 1; background: var(--dark3); }
+
+  /* Delete btn */
+  .delete-card-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #ff444422;
+    border: 1px solid #ff444444;
+    color: #ff7777;
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+    transition: all 0.2s;
+  }
+  .def-card:hover .delete-card-btn { opacity: 1; }
+  .delete-card-btn:hover { background: #ff4444; color: white; }
+
+  /* Add more images btn */
+  .add-more-img {
+    margin-top: 12px;
+    font-size: 0.82rem;
+    color: var(--gold);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 18px;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    transition: all 0.3s;
+    opacity: 0.6;
+  }
+  .add-more-img:hover { opacity: 1; border-color: var(--gold); }
+
+  .extra-images { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 12px; }
+  .extra-img-wrap {
+    position: relative;
+    width: 120px; height: 120px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    cursor: pointer;
+  }
+  .extra-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+  .extra-img-wrap .rm-img {
+    position: absolute;
+    top: 4px; right: 4px;
+    background: #000a;
+    color: #ff7777;
+    border: none;
+    border-radius: 50%;
+    width: 22px; height: 22px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .extra-img-wrap input[type=file] {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer;
+  }
+  .extra-img-add {
+    width: 120px; height: 120px;
+    border: 2px dashed var(--border);
+    border-radius: 10px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: var(--gold);
+    opacity: 0.5;
+    cursor: pointer;
+    font-size: 28px;
+    position: relative;
+    transition: all 0.3s;
+  }
+  .extra-img-add:hover { opacity: 1; border-color: var(--gold); }
+  .extra-img-add input[type=file] {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<!-- HOME PAGE -->
+<div id="home" class="page active">
+  <div class="home-inner">
+    <div class="site-title">
+      <span class="ornament">✦ ✦ ✦</span>
+      <h1>كتاب الصفات والتعريفات</h1>
+      <p>اضغط على أي كارت لمعرفة التعريف</p>
+    </div>
+
+    <div class="divider"><span>◆</span></div>
+
+    <div class="cards-grid" id="cardsGrid"></div>
+
+    <div style="text-align:center">
+      <button class="add-btn" onclick="openModal()">
+        <span>＋</span> إضافة تعريف جديد
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL PAGE -->
+<div id="detail" class="page">
+  <div class="detail-header">
+    <button class="back-btn" onclick="goHome()">← رجوع</button>
+    <div class="detail-title" id="detailTitle"></div>
+  </div>
+  <div class="detail-body">
+
+    <!-- Main Image -->
+    <div class="image-section">
+      <div class="image-upload-area" id="mainImageArea">
+        <input type="file" accept="image/*" onchange="handleMainImage(event)">
+        <div class="upload-placeholder" id="mainUploadPlaceholder">
+          <span class="icon">🖼️</span>
+          <p>اضغط لرفع صورة رئيسية</p>
+        </div>
+        <img class="preview" id="mainImagePreview" style="display:none">
+      </div>
+
+      <!-- Extra images -->
+      <div class="extra-images" id="extraImages"></div>
+      <button class="add-more-img" onclick="addExtraImageSlot()">+ إضافة صورة إضافية</button>
+    </div>
+
+    <!-- Description -->
+    <div class="desc-section">
+      <h2 id="detailDescTitle">الشرح والتعريف</h2>
+      <textarea class="desc-text" id="detailDesc" placeholder="اكتب الشرح هنا..." rows="8" oninput="saveDesc()"></textarea>
+      <p class="edit-hint">✏️ يمكنك تعديل الشرح في أي وقت</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ADD MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <h3>✦ تعريف جديد ✦</h3>
+    <div class="form-group">
+      <label>العنوان</label>
+      <input type="text" id="newTitle" placeholder="مثال: خالي الغالي">
+    </div>
+    <div class="form-group">
+      <label>اختر أيقونة</label>
+      <div class="modal-icons" id="iconPicker"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-confirm" onclick="addCard()">إضافة ✦</button>
+      <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const ICONS = ['⭐','❤️','🌙','🔥','💎','👑','🌹','🦁','🕊️','✨','🌊','⚡','🎭','🎯','🗝️','📖','🌺','🍃','🐉','🎪'];
+
+let selectedIcon = ICONS[0];
+let cards = [];
+let currentCard = null;
+
+// ---- INIT ----
+function init() {
+  // Default cards
+  cards = JSON.parse(localStorage.getItem('def-cards') || 'null') || [
+    { id: 1, title: 'خالي', icon: '❤️', desc: '', images: [] },
+    { id: 2, title: 'خالي الغالي', icon: '👑', desc: '', images: [] },
+    { id: 3, title: 'الأسود', icon: '⭐', desc: '', images: [] },
+  ];
+  renderCards();
+  buildIconPicker();
+}
+
+function saveCards() {
+  // Save only lightweight data (no images in localStorage due to size)
+  const light = cards.map(c => ({ ...c, images: [] }));
+  try { localStorage.setItem('def-cards', JSON.stringify(light)); } catch(e) {}
+}
+
+// ---- CARDS ----
+function renderCards() {
+  const grid = document.getElementById('cardsGrid');
+  grid.innerHTML = '';
+  cards.forEach(card => {
+    const el = document.createElement('div');
+    el.className = 'def-card';
+    el.innerHTML = `
+      <button class="delete-card-btn" onclick="deleteCard(event,${card.id})">✕</button>
+      <span class="card-icon">${card.icon}</span>
+      <div class="card-title">${card.title}</div>
+      <div class="card-subtitle">اضغط للتعريف</div>
+    `;
+    el.addEventListener('click', () => openDetail(card.id));
+    grid.appendChild(el);
+  });
+}
+
+function deleteCard(e, id) {
+  e.stopPropagation();
+  if (!confirm('حذف هذا التعريف؟')) return;
+  cards = cards.filter(c => c.id !== id);
+  saveCards();
+  renderCards();
+}
+
+// ---- DETAIL ----
+function openDetail(id) {
+  currentCard = cards.find(c => c.id === id);
+  document.getElementById('detailTitle').textContent = currentCard.icon + ' ' + currentCard.title;
+  document.getElementById('detailDescTitle').textContent = 'شرح: ' + currentCard.title;
+  document.getElementById('detailDesc').value = currentCard.desc || '';
+
+  // Main image
+  const preview = document.getElementById('mainImagePreview');
+  const placeholder = document.getElementById('mainUploadPlaceholder');
+  if (currentCard.mainImage) {
+    preview.src = currentCard.mainImage;
+    preview.style.display = 'block';
+    placeholder.style.display = 'none';
+  } else {
+    preview.style.display = 'none';
+    placeholder.style.display = 'block';
+  }
+
+  // Extra images
+  renderExtraImages();
+
+  showPage('detail');
+}
+
+function saveDesc() {
+  if (!currentCard) return;
+  currentCard.desc = document.getElementById('detailDesc').value;
+  saveCards();
+}
+
+function handleMainImage(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    currentCard.mainImage = ev.target.result;
+    document.getElementById('mainImagePreview').src = ev.target.result;
+    document.getElementById('mainImagePreview').style.display = 'block';
+    document.getElementById('mainUploadPlaceholder').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+
+function renderExtraImages() {
+  const wrap = document.getElementById('extraImages');
+  wrap.innerHTML = '';
+  (currentCard.images || []).forEach((src, i) => {
+    const div = document.createElement('div');
+    div.className = 'extra-img-wrap';
+    div.innerHTML = `<img src="${src}"><button class="rm-img" onclick="removeExtraImg(${i})">✕</button>`;
+    wrap.appendChild(div);
+  });
+}
+
+function addExtraImageSlot() {
+  // Create hidden file input and trigger it
+  const inp = document.createElement('input');
+  inp.type = 'file';
+  inp.accept = 'image/*';
+  inp.onchange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      if (!currentCard.images) currentCard.images = [];
+      currentCard.images.push(ev.target.result);
+      renderExtraImages();
+    };
+    reader.readAsDataURL(file);
+  };
+  inp.click();
+}
+
+function removeExtraImg(i) {
+  currentCard.images.splice(i, 1);
+  renderExtraImages();
+}
+
+// ---- MODAL ----
+function buildIconPicker() {
+  const picker = document.getElementById('iconPicker');
+  picker.innerHTML = '';
+  ICONS.forEach(ic => {
+    const btn = document.createElement('button');
+    btn.className = 'icon-btn' + (ic === selectedIcon ? ' selected' : '');
+    btn.textContent = ic;
+    btn.onclick = () => {
+      selectedIcon = ic;
+      document.querySelectorAll('.icon-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+    };
+    picker.appendChild(btn);
+  });
+}
+
+function openModal() { document.getElementById('modal').classList.add('open'); document.getElementById('newTitle').focus(); }
+function closeModal() { document.getElementById('modal').classList.remove('open'); document.getElementById('newTitle').value = ''; }
+
+function addCard() {
+  const title = document.getElementById('newTitle').value.trim();
+  if (!title) { document.getElementById('newTitle').focus(); return; }
+  const id = Date.now();
+  cards.push({ id, title, icon: selectedIcon, desc: '', images: [] });
+  saveCards();
+  renderCards();
+  closeModal();
+}
+
+// ---- NAV ----
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(name).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function goHome() { showPage('home'); }
+
+// Close modal on overlay click
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeModal();
+});
+
+init();
+</script>
+</body>
+</html>
